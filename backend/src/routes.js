@@ -7,6 +7,12 @@ const connection = require('./database/connection');
 // CRIANDO A APLICAÇÃO
 const routes  = express.Router();
 
+routes.get('/ongs', async (req, res) => {
+  const ongs = await connection('ongs').select('*');
+
+  return res.json(ongs);
+});
+
 routes.post('/ongs', async (req, res) => {
   // desustrituração, pegando apenas os parâmetros necessários do corpo da requisição
   const { name, email, whatsapp, city, uf } = req.body;
