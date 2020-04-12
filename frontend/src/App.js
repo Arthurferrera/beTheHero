@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import Header from './Header';
+import Logon from './pages/Logon';
+import './global.css'   ;
 
 function App() {
   return (
-    <Header>
-      Arthur porra
-    </Header>
-
+    <Logon>
+      
+    </Logon>
   );
 }
 
