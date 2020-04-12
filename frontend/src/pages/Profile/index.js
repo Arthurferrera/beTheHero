@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
 
 import api from '../../services/api';
@@ -11,12 +11,19 @@ import './styles.css';
 export default function Profile() {
   const [incidents, setIncidents] =  useState([]);
   
+  const history = useHistory();
+  
   const ongName = JSON.parse(localStorage.getItem('beTheHero.ong')).name;
   const ongId = JSON.parse(localStorage.getItem('beTheHero.ong')).id;
   
   useEffect(() => {
     getIncidents();
   }, [ongId]);
+
+  async function hendleLogout() {
+    localStorage.removeItem('beTheHero.ong');
+    history.push('/')
+  }
 
   async function handleDeleteIncident(id) {
     try {
@@ -52,7 +59,7 @@ export default function Profile() {
           Cadastrar novo caso
         </Link>
 
-        <button type="button">
+        <button onClick={hendleLogout} type="button">
           <FiPower size={18} color="#E02041" />
         </button>
       </header> 
