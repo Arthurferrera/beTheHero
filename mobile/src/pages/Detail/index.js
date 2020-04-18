@@ -16,14 +16,14 @@ export default function Detail() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image source={logoImg} />
-        
         <TouchableOpacity
           style={styles.detailsButton}
           onPress={backPage}
         >
           <Feather name="arrow-left" size={28} color="#E02041" />
         </TouchableOpacity>
+        
+        <Image source={logoImg} />
       </View>
 
         <View style={styles.incident}>
