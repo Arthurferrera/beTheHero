@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, TouchableOpacity, Image, Text} from 'react-native';
+import { View, TouchableOpacity, Image, Text, Linking } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import * as MailComposer from 'expo-mail-composer';
 
@@ -24,7 +24,7 @@ export default function Detail() {
   }
 
   function sendMessageWhatsapp() {
-    
+    Linking.openURL(`whatsapp://send?phone=+5511975126047&text=${message}`);
   }
 
   return (
