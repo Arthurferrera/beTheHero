@@ -1,11 +1,17 @@
 import React from 'react';
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { View, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 
 import logoImg from '../../assets/logo.png';
 import styles from './styles';
 
 export default function Incidents() {
+  const navigation = useNavigation();
+
+  function navigateToDetail() {
+    navigation.navigate('Detail');
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -36,7 +42,7 @@ export default function Incidents() {
 
               <TouchableOpacity
                 style={styles.detailsButton}
-                onPress={() => {}}
+                onPress={navigateToDetail}
               >
                 <Text style={styles.detailsButtonText}>Ver mais detalhes</Text>
                 <Feather name="arrow-right" size={16} color="#E02041" />
