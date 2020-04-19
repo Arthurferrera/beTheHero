@@ -25,10 +25,17 @@ export default function Incidents() {
     }
 
     setLoading(true);
+    let response;
+    try {
+      response = await api.get('incidents', {
+        params: { page }
+      });
+    } catch (error) {
+      console.log('erro na requisição');
+      console.error(error);
+    }
 
-    const response = await api.get('incidents', {
-      params: { page }
-    });
+    
     // melhor forma de "juntar" dois vetores
     setIncidents([...incidents, ...response.data]);
     setTotal(response.headers['x-total-count']);
@@ -61,7 +68,7 @@ export default function Incidents() {
           onEndReached={loadIncidents}
           onEndReachedThreshold={0.3}
           renderItem={({ item: incident }) => (
-            <View style={styles.incident}>
+            <View key={incident.id} style={styles.incident}>
               <Text style={styles.incidentProperty}>ONG:</Text>
               <Text style={styles.incidentValue}>{incident.name}</Text>
 
