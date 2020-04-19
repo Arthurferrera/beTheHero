@@ -9,7 +9,9 @@ import logoImg from '../../assets/logo.png';
 
 export default function Incidents() {
   const [incidents, setIncidents] = useState([]);
-  const [total, setTotal] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   function navigateToDetail(incident) {
@@ -17,10 +19,23 @@ export default function Incidents() {
   }
 
   async function loadIncidents() {
-    const response = await api.get('incidents');
-    setIncidents(response.data);
+    // caso um requisição esteja em andamento, não faz outra
+    if (loading || (total > 0 && incidents.length == total)) {
+      return;
+    }
+
+    setLoading(true);
+
+    const response = await api.get('incidents', {
+      params: { page }
+    });
+    // melhor forma de "juntar" dois vetores
+    setIncidents([...incidents, ...response.data]);
     setTotal(response.headers['x-total-count']);
+    setPage(page + 1);
+    setLoading(false);
   }
+
 
   useEffect(() => {
     loadIncidents();
@@ -43,6 +58,8 @@ export default function Incidents() {
           style={styles.incidentList}
           keyExtractor={incident => String(incident.id)}
           showsVerticalScrollIndicator={false}
+          onEndReached={loadIncidents}
+          onEndReachedThreshold={0.3}
           renderItem={({ item: incident }) => (
             <View style={styles.incident}>
               <Text style={styles.incidentProperty}>ONG:</Text>

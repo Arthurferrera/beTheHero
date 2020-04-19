@@ -12,7 +12,7 @@ export default function Detail() {
   const route = useRoute();
 
   const incident = route.params.incident;
-  const message = 'Olá ONG, estou entrando em contato pois gostaria de ajudar no caso "Cadelinha Abandonada" com o valor de R$120,00';
+  const message = `Olá ${incident.name}, estou entrando em contato pois gostaria de ajudar no caso "${incident.title}" com o valor de ${Intl.NumberFormat('pt-BR', { style: 'currency', currency: "BRL" }).format(incident.value)}`;
 
   function backPage() {
     navigation.goBack();
@@ -20,14 +20,14 @@ export default function Detail() {
 
   function sendMail() {
     MailComposer.composeAsync({
-      subject: 'Herói do caso: Cadelinha abandonada',
-      recipients: ['arthur_f.oliveira@hotmail.com'],
+      subject: `Herói do caso: ${incident.title}`,
+      recipients: [incident.email],
       body: message,
     })
   }
 
   function sendMessageWhatsapp() {
-    Linking.openURL(`whatsapp://send?phone=+5511975126047&text=${message}`);
+    Linking.openURL(`whatsapp://send?phone=${incident.whatsapp}&text=${message}`);
   }
 
   return (
