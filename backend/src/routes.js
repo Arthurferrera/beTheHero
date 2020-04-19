@@ -11,7 +11,11 @@ const SessionController = require('./controllers/SessionController');
 const routes  = express.Router();
 
 // criando uma sessão - realizando o login
-routes.post('/sessions', SessionController.create);
+routes.post('/sessions', celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    id: Joi.string().required()
+  }),
+}), SessionController.create);
 // listagem de ongs, sem filtro
 routes.get('/ongs', OngController.index);
 // cadastro de ongs
@@ -19,7 +23,7 @@ routes.post('/ongs', celebrate({
   [Segments.BODY]: Joi.object().keys({
     name: Joi.string().required(),
     email: Joi.string().required().email(),
-    whatsapp: Joi.number().required().min(10).max(11),
+    whatsapp: Joi.string().required().min(10).max(11),
     city: Joi.string().required(),
     uf: Joi.string().required().length(2)
   }),
